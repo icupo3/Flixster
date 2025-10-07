@@ -1,5 +1,6 @@
 package com.example.flixster
 
+import android.content.Intent
 import androidx.fragment.app.Fragment
 import android.os.Bundle
 import android.util.Log
@@ -54,7 +55,7 @@ class MovieFragment : Fragment(), OnListFragmentInteractionListener {
 
         // Uncomment me once you complete the above sections!
         client[
-            "https://api.themoviedb.org/3/movie/now_playing",
+            "https://api.themoviedb.org/3/movie/popular",
             params,
             object : JsonHttpResponseHandler()
             {
@@ -72,25 +73,18 @@ class MovieFragment : Fragment(), OnListFragmentInteractionListener {
 
                     //TODO - Parse JSON into Models
                     // Filter out the "data" JSON array and turn into a String
-                    Log.d("MovieFragment", "fartmaster1")
                     val dataJSON = json.jsonObject.get("results") as JSONArray
-                    Log.d("MovieFragment", "fartmaster2")
                     val moviesRawJSON = dataJSON.toString()
-                    Log.d("MovieFragment", "fartmaster3")
 
                     // Create a Gson instance to help parse the raw JSON
                     val gson = Gson()
-                    Log.d("MovieFragment", "fartmaster4")
 
                     // Tell Gson what type we’re expecting (a list of NationalPark objects)
                     val arrayMovieType = object : TypeToken<List<Movie>>() {}.type
-                    Log.d("MovieFragment", "fartmaster5")
 
                     // Convert the raw JSON string into a list of actual NationalPark data models
                     val models: List<Movie> = gson.fromJson(moviesRawJSON, arrayMovieType)
-                    Log.d("MovieFragment", "fartmaster6")
                     recyclerView.adapter = MovieRecyclerViewAdapter(models, this@MovieFragment)
-                    Log.d("MovieFragment", "fartmaster7")
 
                     // Look for this in Logcat:
                     Log.d("MovieFragment", "response successful")
@@ -123,6 +117,9 @@ class MovieFragment : Fragment(), OnListFragmentInteractionListener {
      * What happens when a particular park is clicked.
      */
     override fun onItemClick(item: Movie) {
+        val intent = Intent(requireContext(), DetailActivity::class.java)
+        intent.putExtra("movie_extra", item)
         Toast.makeText(context, "Movie Name: " + item.name, Toast.LENGTH_LONG).show()
+        startActivity(intent)
     }
 }

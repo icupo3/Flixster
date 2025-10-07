@@ -1,5 +1,6 @@
 package com.example.flixster
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +13,10 @@ class MovieRecyclerViewAdapter(
     private val movies: List<Movie>,
     private val mListener: OnListFragmentInteractionListener?
 ) : RecyclerView.Adapter<MovieRecyclerViewAdapter.MovieViewHolder>() {
+
+    interface OnItemClickListener {
+        fun onItemClick(movie: Movie)
+    }
 
     // Inflate the item layout from XML
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
@@ -51,8 +56,8 @@ class MovieRecyclerViewAdapter(
 
         // Sets up click listener for this park item
         holder.mView.setOnClickListener {
-            holder.mItem?.let { park ->
-                mListener?.onItemClick(park)
+            holder.mItem?.let { movie ->
+                mListener?.onItemClick(movie)
             }
         }
     }

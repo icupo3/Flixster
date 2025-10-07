@@ -1,20 +1,33 @@
 package com.example.flixster
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
-class Movie {
-    @JvmField
+@Parcelize
+data class Movie(
     @SerializedName("title")
-    var name: String? = null
+    val name: String? = null,
 
-    @JvmField
     @SerializedName("overview")
-    var description: String? = null
+    val description: String? = null,
 
     @SerializedName("poster_path")
-    var posterPath: String? = null
+    val posterPath: String? = null,
 
-    // Build full URL
+    @SerializedName("backdrop_path")
+    val poster2Path: String? = null,
+
+    @SerializedName("release_date")
+    val releaseDate: String? = null,
+
+    @SerializedName("vote_average")
+    val voteAverage: String? = null
+) : Parcelable {
+
     val imageUrl: String?
         get() = posterPath?.let { "https://image.tmdb.org/t/p/w500$it" }
+
+    val image2Url: String?
+        get() = poster2Path?.let { "https://image.tmdb.org/t/p/w500$it" }
 }
